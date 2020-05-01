@@ -19,11 +19,12 @@ io.sockets.on('connection',(socket) =>{
    //client'dan selamVer mesajı geldi
    //gelen mesaj karşılandı
    //console birşeyler yazıldı.
-   socket.on('selamVer',() =>{
+   socket.on('selamVer',(data) =>{
       console.log('client isteği karşılandı');
+      console.log(data);
    });
    setTimeout(() =>{
-      socket.emit('merhaba de');
+      socket.emit('merhaba de',{isim : 'Seda', sehir : 'Malatya'});
    },1000);
 
 

@@ -10,11 +10,11 @@
 
         $(() =>{
             $('button').on('click', () => {
-                socket.emit('selamVer');
+                socket.emit('selamVer', {isim : 'Hakan',sehir:'Viyana'});
             });
 
-            socket.on('merhaba de', () => {
-                $('#merhaba').append("<p>sunucudan gelen mesaj karşılandı</p>");
+            socket.on('merhaba de', (data) => {
+                $('#merhaba').append('Merhaba '+data.isim);
             });
 
         });
