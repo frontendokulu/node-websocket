@@ -1,0 +1,23 @@
+{
+  "name": "node-websocket",
+  "version": "1.0.0",
+  "description": "node ile websocket denemeleri",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontendokulu/node-websocket.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontendokulu/node-websocket/issues"
+  },
+  "homepage": "https://github.com/frontendokulu/node-websocket#readme",
+  "dependencies": {
+    "socket.io": "^2.3.0"
+  }
+}
