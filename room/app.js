@@ -8,8 +8,22 @@ server.listen(3000);
 
 const io = socketio.listen(server);
 io.on('connection', (socket) =>{
+    //her bağlantı açıldığında bir id oluşturulur.
+    console.log(socket.id);
     //joinRoom event'ı
+/*
+
+    socket.join('room1');
+    socket.join('room2');
+    socket.join('room3', () => {
+    //bağlı olan roomları listeler
+        const rooms = Object.keys(socket.rooms);
+        console.log(rooms);
+    });
+*/
+
    socket.on('joinRoom',(data) =>{
+
         // console.log(data);
        socket.join(data.name, () => {
            //odada bulunan kişi sayısını bulur.
@@ -22,6 +36,7 @@ io.on('connection', (socket) =>{
           // diğerleri henüz odada değiller :)
           // io.to(data.name).emit('new join');
            socket.emit('log', {message : 'Odaya girdiniz.'});
+
       });
 
    });
