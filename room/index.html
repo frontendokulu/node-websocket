@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>WebSocket</title>
+    <style>
+        #leaveRoom {
+            display: none;
+        }
+    </style>
     <script src="http://localhost:3000/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script>
@@ -12,13 +17,35 @@
             $('#joinRoom').on('click', () => {
                 socket.emit('joinRoom', {name : $('#roomName').val() });
             });
+
+            $('#leaveRoom').on('click', () => {
+                socket.emit('leaveRoom', {name : $('#roomName').val() });
+            });
+
             socket.on('new join', (data) =>{
                 // $('#logs').append('<div>Odaya biri katıldı</div>');
-                $('#userCount').html('<div>Bu odada <b>'+data.count+'kişi var</b></div>');
+                // $('#userCount').html(`Bu odada <b> ${ data.count } </b> kişi var.`);
+                $('#userCount').html(`Bu odada <b> ${ data.count } </b> kişi var.`);
+
+            });
+
+            socket.on('leavedRoom', (data) =>{
+                // $('#logs').append('<div>Odaya biri katıldı</div>');
+                // $('#userCount').html(`<div>Bu odada <b> ${ data.count } </b> kişi var</div>`);
+                $('#userCount').html(`Bu odada <b> ${ data.count } </b> kişi var.`);
 
             });
             socket.on('log',(data) => {
-               $('#logs').append(data.message);
+                $('#logs').html(data.message);
+                $('#joinRoom, #roomName').attr('disabled','disabled');
+                $('#leaveRoom').show();
+            });
+        //    odadan ayrılan kişi için
+            socket.on('socket.leaved',(data) => {
+                $('#logs').html(data.message+'<br>');
+                $('#joinRoom, #roomName').removeAttr('disabled');
+                $('#leaveRoom').hide();
+                $('#userCount').empty();
             });
         });
 
@@ -26,7 +53,9 @@
 </head>
 <body>
     <input id="roomName">
-    <button id="joinRoom">İsim Yaz</button>
+    <button id="joinRoom">Odaya Katıl</button>
+    <button id="leaveRoom">Ayrıl</button>
+
     <div id="logs"></div>
     <div id="userCount"> </div>
 </body>
