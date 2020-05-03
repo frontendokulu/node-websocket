@@ -12,7 +12,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script>
         $(() =>{
-            const socket = io.connect('http://localhost:3000/');
+            const socket = io.connect('http://localhost:3001/',{
+                reconnectionAttempts : 5,
+                reconnectionDelay:1000,
+                // reconnection : false
+            });
+
+            socket.on('reconnect_attempt', () =>{
+                $('.reconnectStatus').append('<p>Yeniden bağlanmaya çalışılıyor</p>');
+            });
+
+            socket.on('reconnect_error', () =>{
+                $('.reconnectStatus').append('<p>Yeniden bağlanma başarısız</p>');
+            });
+
+            socket.on('reconnect', () =>{
+                $('.reconnectStatus').append('<p>Yeniden bağlanma başarılı</p>');
+            });
 
             $('#joinRoom').on('click', () => {
                 socket.emit('joinRoom', {name : $('#roomName').val() });
@@ -52,6 +68,8 @@
     </script>
 </head>
 <body>
+<div class="reconnectStatus"></div>
+
     <input id="roomName">
     <button id="joinRoom">Odaya Katıl</button>
     <button id="leaveRoom">Ayrıl</button>
